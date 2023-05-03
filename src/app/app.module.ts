@@ -7,16 +7,19 @@ import { HomeComponent } from './components/home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PanellComponent } from './components/panell/panell.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: WelcomeComponent },
+  { path: 'home', component: HomeComponent },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    PanellComponent
+    PanellComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
