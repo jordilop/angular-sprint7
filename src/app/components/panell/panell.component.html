@@ -1,0 +1,16 @@
+<div class="form">
+    <form [formGroup]="panellForm">
+        <p>
+            <label>Número de pàgines </label>
+            <input formControlName="pages" type="text" name="pages" [value]="pages" (keyup)="onKeyup($event)">
+        </p>
+        <p *ngIf="panellForm.get('pages')?.hasError('required')">Entra un valor!</p>
+        <p *ngIf="panellForm.get('pages')?.hasError('pattern')">El valor ha de ser numèric sencer!</p>
+        <p>
+            <label>Número d'idiomes </label>
+            <input formControlName="langs" type="text" name="langs" [value]="langs" (keyup)="onKeyup($event)">
+        </p>
+        <p *ngIf="panellForm.get('langs')?.hasError('required')">Entra un valor!</p>
+        <p *ngIf="panellForm.get('langs')?.hasError('pattern')">El valor ha de ser numèric sencer!</p>
+    </form>
+</div>

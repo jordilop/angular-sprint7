@@ -1,0 +1,7 @@
+.form {
+    width: max-content;
+    border: .2rem solid black;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
