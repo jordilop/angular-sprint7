@@ -25,9 +25,23 @@ export class PanellComponent {
 
   onKeyup(e: any) {
     let { name, value } = e.target;
-
     name == 'pages' ? this.pages = value : this.langs = value;
+    this.sendEmitEvent();
+  }
 
+  increment(name: string) {
+    name == 'pages' ? this.pages++ : false;
+    name == 'langs' ? this.langs++ : false;
+    this.sendEmitEvent();
+  }
+
+  decrement(name: string) {
+    name == 'pages' && this.pages > 0 ? this.pages-- : false;
+    name == 'langs' && this.langs > 0 ? this.langs-- : false;
+    this.sendEmitEvent();
+  }
+
+  sendEmitEvent() {
     this.pagesEvent.emit(this.pages);
     this.langsEvent.emit(this.langs);
   }

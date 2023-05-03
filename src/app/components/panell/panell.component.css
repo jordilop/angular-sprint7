@@ -5,3 +5,23 @@
     padding: 1rem;
     margin: 1rem 0;
 }
+
+.btn-custom {
+    font-size: 1.4rem;
+    color: white;
+    background-color: #F67754;
+    padding: .2rem .6rem;
+    margin: .3rem;
+    border: .1rem solid #F67754;
+    border-radius: .5rem;
+}
+
+.btn-custom:hover {
+    color: #F67754;
+    background-color: white;
+}
+
+.btn-custom:active {
+    color: white;
+    background-color: #F67754;
+}
