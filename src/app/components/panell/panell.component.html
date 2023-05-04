@@ -5,6 +5,7 @@
             <button class="btn-custom" (click)="increment('pages')">+</button>
             <input formControlName="pages" type="text" name="pages" [value]="pages" (keyup)="onKeyup($event)" #pagesButton>
             <button class="btn-custom" (click)="decrement('pages')">-</button>
+            <app-modal text={{textModal[0]}}></app-modal>
         </p>
         <p *ngIf="panellForm.get('pages')?.hasError('required')">Entra un valor!</p>
         <p *ngIf="panellForm.get('pages')?.hasError('pattern')">El valor ha de ser numèric sencer!</p>
@@ -13,6 +14,7 @@
             <button class="btn-custom" (click)="increment('langs')">+</button>
             <input formControlName="langs" type="text" name="langs" [value]="langs" (keyup)="onKeyup($event)">
             <button class="btn-custom" (click)="decrement('langs')">-</button>
+            <app-modal text={{textModal[1]}}></app-modal>
         </p>
         <p *ngIf="panellForm.get('langs')?.hasError('required')">Entra un valor!</p>
         <p *ngIf="panellForm.get('langs')?.hasError('pattern')">El valor ha de ser numèric sencer!</p>

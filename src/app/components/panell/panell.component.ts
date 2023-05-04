@@ -8,6 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class PanellComponent {
 
+  textModal: Array<string> = [
+    "Servei per triar el nombre de págines de la seva pàgina Web",
+    "Servei per triar el nombre d'idiomes de la seva pàgina Web"
+  ];
+
   panellForm: FormGroup;
 
   constructor(private _builder: FormBuilder) {

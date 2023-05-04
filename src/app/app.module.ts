@@ -8,10 +8,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { PanellComponent } from './components/panell/panell.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'modal', component: ModalComponent },
 ];
 
 @NgModule({
@@ -19,13 +22,15 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     PanellComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(appRoutes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
