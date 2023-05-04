@@ -19,4 +19,11 @@ export class QuotationListComponent {
 
   resetOrder = () => this.orderList = this.list;
 
+  searchByName(e: any) {
+    e.target.value.length > 0 ?
+      this.orderList = this.list.filter(element => element.quotation.toLowerCase().includes(e.target.value.toLowerCase()))
+      :
+      this.orderList = this.list;
+  }
+
 }
