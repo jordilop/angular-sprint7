@@ -1,9 +1,11 @@
-<div class="form">
+<!-- <div class="form"> -->
+<div class="row border border-2 border-dark rounded m-1">
     <form [formGroup]="panellForm">
         <p>
             <label>Número de pàgines </label>
             <button class="btn-custom" (click)="increment('pages')">+</button>
-            <input formControlName="pages" type="text" name="pages" [value]="pages" (keyup)="onKeyup($event)" #pagesButton>
+            <input formControlName="pages" type="text" name="pages" [value]="pages" (keyup)="onKeyup($event)"
+                #pagesButton>
             <button class="btn-custom" (click)="decrement('pages')">-</button>
             <app-modal text={{textModal[0]}}></app-modal>
         </p>
@@ -20,3 +22,4 @@
         <p *ngIf="panellForm.get('langs')?.hasError('pattern')">El valor ha de ser numèric sencer!</p>
     </form>
 </div>
+<!-- </div> -->

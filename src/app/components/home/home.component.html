@@ -1,18 +1,41 @@
-<p>Que vols fer?</p>
-<p>
-    <input type="checkbox" name="web" (change)="onChanged($event)">
-    Una pàgina web (500€)
-    <app-panell *ngIf="show" (pagesEvent)="receivePages($event)" (langsEvent)="receiveLangs($event)"></app-panell>
-</p>
-<p>
-    <input type="checkbox" name="seo" (change)="onChanged($event)">
-    Una consultoria SEO (300€)
-</p>
-<p>
-    <input type="checkbox" name="ads" (change)="onChanged($event)">
-    Una campanya de Google Ads (200€)
-</p>
-<p>Preu: {{ totalAmount }}</p>
-<p>
-    <button routerLink="">Inici</button>
-</p>
+<div class="row my-2">
+    <div class="col-5">
+        <h4>Formulari Pressupost</h4>
+        <p>Que vols fer?</p>
+        <p>
+            <input type="checkbox" name="web" (change)="onChanged($event)">
+            Una pàgina web (500€)
+            <app-panell *ngIf="show" (pagesEvent)="receivePages($event)"
+                (langsEvent)="receiveLangs($event)"></app-panell>
+        </p>
+        <p>
+            <input type="checkbox" name="seo" (change)="onChanged($event)">
+            Una consultoria SEO (300€)
+        </p>
+        <p>
+            <input type="checkbox" name="ads" (change)="onChanged($event)">
+            Una campanya de Google Ads (200€)
+        </p>
+        <p>Preu: {{ totalAmount }}</p>
+        <p>
+            Pressupost
+            <input type="text" name="quotation" [(ngModel)]="quotation">
+        </p>
+        <p>
+            Client
+            <input type="text" name="customer" [(ngModel)]="customer">
+        </p>
+        <p>
+            <button class="btn btn-outline-primary" (click)="setQuotation()">Guardar</button>
+        </p>
+    </div>
+    <div class="col-7">
+        <h4>Llista pressupostos</h4>
+        <app-quotation-list></app-quotation-list>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <button class="btn btn-primary" routerLink="">Inici</button>
+    </div>
+</div>
