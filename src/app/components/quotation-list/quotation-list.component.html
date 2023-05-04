@@ -1,3 +1,14 @@
+<div class="row justify-content-center">
+    <div class="col-3">
+        <button class="btn btn-light btn-sm" (click)="orderByName()">Ordenar pressupostos</button>
+    </div>
+    <div class="col-3">
+        <button class="btn btn-light btn-sm" (click)="orderByDate()">Ordenar data</button>
+    </div>
+    <div class="col-3">
+        <button class="btn btn-light btn-sm" (click)="resetOrder()">Reiniciar ordre</button>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -10,7 +21,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let item of list; let i=index">
+        <tr *ngFor="let item of orderList; let i=index">
             <th scope="row">{{ i+1 }}</th>
             <td>{{ item.date }}</td>
             <td>{{ item.services }}</td>

@@ -9,7 +9,14 @@ import { TotalAmountServiceService } from 'src/app/total-amount-service.service'
 export class QuotationListComponent {
 
   list = this.totalAmountService.quotationList;
+  orderList = this.totalAmountService.quotationList;
 
   constructor(private totalAmountService: TotalAmountServiceService) { }
+
+  orderByName = () => this.orderList = [...this.orderList].sort((a, b) => (a.quotation.toLowerCase() < b.quotation.toLowerCase() ? -1 : (a.quotation.toLowerCase() > b.quotation.toLowerCase() ? 1 : 0)));
+
+  orderByDate = () => this.orderList = [...this.orderList].sort((a: any, b: any) => Date.parse(a.date) - Date.parse(b.date));
+
+  resetOrder = () => this.orderList = this.list;
 
 }
