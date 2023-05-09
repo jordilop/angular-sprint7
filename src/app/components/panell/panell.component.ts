@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -25,29 +25,49 @@ export class PanellComponent {
   @Output() pagesEvent = new EventEmitter<number>();
   @Output() langsEvent = new EventEmitter<number>();
 
-  pages = 0;
-  langs = 0;
+  @Input() pages!: number;
+  @Input() langs!: number;
 
   onKeyup(e: any) {
-    let { name, value } = e.target;
-    name == 'pages' ? this.pages = value : this.langs = value;
-    this.sendEmitEvent();
+    const { name, value } = e.target;
+
+    if (name == 'pages') {
+      this.pages = value;
+      this.sendEmitEventPages();
+    }
+    if (name == 'langs') {
+      this.langs = value;
+      this.sendEmitEventLangs();
+    }
   }
 
   increment(name: string) {
-    name == 'pages' ? this.pages++ : false;
-    name == 'langs' ? this.langs++ : false;
-    this.sendEmitEvent();
+    if (name == 'pages') {
+      this.pages++;
+      this.sendEmitEventPages();
+    }
+    if (name == 'langs') {
+      this.langs++;
+      this.sendEmitEventLangs();
+    }
   }
 
   decrement(name: string) {
-    name == 'pages' && this.pages > 0 ? this.pages-- : false;
-    name == 'langs' && this.langs > 0 ? this.langs-- : false;
-    this.sendEmitEvent();
+    if (name == 'pages' && this.pages > 0) {
+      this.pages--;
+      this.sendEmitEventPages();
+    }
+    if (name == 'langs' && this.langs > 0) {
+      this.langs--;
+      this.sendEmitEventLangs();
+    }
   }
 
-  sendEmitEvent() {
+  sendEmitEventPages() {
     this.pagesEvent.emit(this.pages);
+  }
+
+  sendEmitEventLangs() {
     this.langsEvent.emit(this.langs);
   }
 }

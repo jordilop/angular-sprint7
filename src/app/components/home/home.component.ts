@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TotalAmountServiceService } from 'src/app/total-amount-service.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,104 +10,91 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   totalAmount = 0;
-  totalPrices = [0, 0, 0];
-  prices = [500, 300, 200];
-  show = false;
   quotation = '';
   customer = '';
-
-  webServices = [0, 0];
-
-  pipe = new DatePipe('es-ES');
 
   queryParams = {
     web: false,
     seo: false,
     ads: false,
-    pages: this.webServices[0],
-    langs: this.webServices[1]
+    pages: 0,
+    langs: 0
   };
 
-  constructor(private totalAmountService: TotalAmountServiceService, private router: Router, private route: ActivatedRoute) { }
+  pipe = new DatePipe('es-ES');
+
+  constructor(private totalAmountService: TotalAmountServiceService, private router: Router, private activeRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // this.router.navigate([], {
-    //   // relativeTo: this.route,
-    //   queryParams: {
-    //     web: this.totalPrices[0] != 0 ? true : false,
-    //     seo: this.totalPrices[1] != 0 ? true : false,
-    //     ads: this.totalPrices[2] != 0 ? true : false,
-    //     pages: this.webServices[0],
-    //     langs: this.webServices[1]
-    //   },
-    //   queryParamsHandling: 'merge',
-    // })
-    // this.setQueryParams();
-    this.getQueryParams();
-    // this.setQueryParams();
-  }
 
-  getQueryParams() {
-    this.route.queryParams.subscribe(params => {
-      console.log("GET! " + Boolean(params['web']));
-      console.log(this.totalPrices);
-      Boolean(params['web']) ? this.totalPrices[0] = this.prices[0] : false;
-      console.log(this.totalPrices);
-    })
-  }
-
-  setQueryParams() {
-    this.router.navigate([], {
-      queryParams: {
-        web: this.totalPrices[0] != 0 ? true : false,
-        seo: this.totalPrices[1] != 0 ? true : false,
-        ads: this.totalPrices[2] != 0 ? true : false,
-        pages: this.webServices[0],
-        langs: this.webServices[1]
+    this.activeRoute.queryParams.subscribe(queryParams => {
+      if (Object.keys(queryParams).length == 0) {
+        this.router.navigate([], { queryParams: this.queryParams })
+      } else {
+        this.activeRoute.queryParams.subscribe(params => {
+          this.queryParams.web = (/true/).test(params['web']);
+          this.queryParams.ads = (/true/).test(params['ads']);
+          this.queryParams.seo = (/true/).test(params['seo']);
+          this.queryParams.pages = Number(params['pages']);
+          this.queryParams.langs = Number(params['langs']);
+          if (!this.queryParams.web) {
+            this.router.navigate([], {
+              queryParams: {
+                pages: 0,
+                langs: 0
+              },
+              queryParamsHandling: 'merge'
+            })
+          }
+        })
       }
-    })
-    console.log("SET!!")
+    });
+
+    this.totalAmount = this.totalAmountService.calculateTotalAmountObject(this.queryParams);
   }
 
   onChanged(e: any) {
-    let { name, checked } = e.target;
-    let index = 0;
     this.totalAmount = 0;
+    if (!this.queryParams.web) {
+      this.queryParams.pages = 0;
+      this.queryParams.langs = 0;
+    }
 
-    name == 'web' ? index = 0 : false;
-    name == 'seo' ? index = 1 : false;
-    name == 'ads' ? index = 2 : false;
+    this.router.navigate([], { queryParams: this.queryParams });
 
-    name == 'web' && checked ? this.show = true : false;
-    name == 'web' && !checked ? this.show = false : false;
-
-    checked ? this.totalPrices[index] = this.prices[index] : this.totalPrices[index] = 0;
-
-    this.totalAmount = this.totalAmountService.calculateTotalAmount(this.totalPrices, this.webServices);
-
-    this.setQueryParams();
+    this.totalAmount = this.totalAmountService.calculateTotalAmountObject(this.queryParams);
   }
 
   receivePages(e: any) {
-    this.webServices[0] = Number(e);
-    this.totalAmount = this.totalAmountService.calculateTotalAmount(this.totalPrices, this.webServices);
-    this.setQueryParams();
+    this.queryParams.pages = Number(e);
+    this.router.navigate([], {
+      queryParams: {
+        pages: this.queryParams.pages
+      },
+      queryParamsHandling: 'merge'
+    });
+
+    this.totalAmount = this.totalAmountService.calculateTotalAmountObject(this.queryParams);
   }
 
   receiveLangs(e: any) {
-    this.webServices[1] = Number(e);
-    this.totalAmount = this.totalAmountService.calculateTotalAmount(this.totalPrices, this.webServices);
-    this.setQueryParams();
+    this.queryParams.langs = Number(e);
+    this.router.navigate([], {
+      queryParams: {
+        langs: this.queryParams.langs
+      },
+      queryParamsHandling: 'merge'
+    });
+
+    this.totalAmount = this.totalAmountService.calculateTotalAmountObject(this.queryParams);
   }
 
   setQuotation() {
     const date = this.pipe.transform(Date.now(), 'dd/MM/yyyy HH:mm');
     const services: Array<string> = [];
-    this.totalPrices.map((price, index) => {
-      index == 0 && price > 0 ? services.push('Web') : false;
-      index == 1 && price > 0 ? services.push('Seo') : false;
-      index == 2 && price > 0 ? services.push('Ads') : false;
-    })
+    this.queryParams.web ? services.push(`Web(${this.queryParams.pages},${this.queryParams.langs})`) : false;
+    this.queryParams.seo ? services.push('Seo') : false;
+    this.queryParams.ads ? services.push('Ads') : false;
 
     this.totalAmountService.setQuotationList(
       date,
